@@ -1,4 +1,4 @@
-# lap_system_check
+# System_Report_Generator
 
 A lightweight Windows PowerShell tool that audits installed software versions and system health — designed to help identify corporate security vulnerabilities.
 
