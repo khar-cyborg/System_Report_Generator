@@ -1,0 +1,38 @@
+# ============================================================
+# lap_system_check — .gitignore
+# ============================================================
+
+# --- Generated HTML reports (output files, not source) ---
+*.html
+SystemReport/
+SoftwareReport/
+
+# Desktop output folder (default output location)
+SystemReport.html
+SoftwareReport.html
+
+# --- Windows OS ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- PowerShell ---
+*.ps1xml
+*.psd1.bak
+*.psm1.bak
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# --- Temp / Logs ---
+*.log
+*.tmp
+*.bak
+*.swp
+~$*
