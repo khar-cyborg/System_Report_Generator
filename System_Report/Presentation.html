@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Report Generator – Presentation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cyan:   #00d4ff;
+  --purple: #7850ff;
+  --bg:     #06060f;
+  --card:   #0d0d22;
+  --border: #1c1c3a;
+  --text:   #e0e0e0;
+  --muted:  #555;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Background glow ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 60%, rgba(0,212,255,.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(120,80,255,.06) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* ── Slide container ── */
+.deck {
+  position: relative;
+  width: min(860px, 96vw);
+  z-index: 1;
+}
+
+.slide {
+  display: none;
+  animation: fadeSlide .38s ease forwards;
+}
+.slide.active { display: flex; flex-direction: column; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Shared slide card ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 52px 58px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+}
+
+/* ── Slide 1 – Title ── */
+.s1 .tag {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 18px; font-weight: 600;
+}
+.s1 h1 {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.15;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 18px;
+}
+.s1 .sub {
+  font-size: 15px; color: #888; max-width: 520px; line-height: 1.7;
+}
+.s1 .badge-row { display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
+.badge {
+  font-size: 11px; font-weight: 600; padding: 6px 14px; border-radius: 20px;
+  border: 1px solid rgba(0,212,255,.25); color: var(--cyan);
+  background: rgba(0,212,255,.07); letter-spacing: .5px;
+}
+
+/* ── Slide 2 – Problem ── */
+.s2 .eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #ff6b6b; font-weight: 600; margin-bottom: 14px; }
+.s2 h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 700; margin-bottom: 26px; }
+.s2 h2 span { color: #ff6b6b; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+.stat-box {
+  background: rgba(255,107,107,.06); border: 1px solid rgba(255,107,107,.15);
+  border-radius: 14px; padding: 20px 22px;
+}
+.stat-box .num { font-size: 34px; font-weight: 800; color: #ff6b6b; }
+.stat-box .lbl { font-size: 12px; color: #777; margin-top: 4px; line-height: 1.4; }
+
+/* ── Slide 3 – Solution ── */
+.s3 .eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); font-weight: 600; margin-bottom: 14px; }
+.s3 h2 { font-size: clamp(22px, 3vw, 32px); font-weight: 700; margin-bottom: 28px; }
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.feat-box {
+  background: rgba(0,212,255,.04); border: 1px solid rgba(0,212,255,.12);
+  border-radius: 14px; padding: 20px;
+}
+.feat-box .icon { font-size: 24px; margin-bottom: 10px; }
+.feat-box h3 { font-size: 14px; font-weight: 600; color: var(--cyan); margin-bottom: 6px; }
+.feat-box p { font-size: 12px; color: #666; line-height: 1.55; }
+
+/* ── Slide 4 – Security ── */
+.s4 .eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--purple); font-weight: 600; margin-bottom: 14px; }
+.s4 h2 { font-size: clamp(22px, 3vw, 32px); font-weight: 700; margin-bottom: 28px; }
+.check-list { display: flex; flex-direction: column; gap: 12px; }
+.check-item {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(120,80,255,.06); border: 1px solid rgba(120,80,255,.15);
+  border-radius: 12px; padding: 14px 18px;
+}
+.check-item .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  flex-shrink: 0;
+}
+.check-item .txt { font-size: 13px; color: #ccc; }
+.check-item .txt strong { color: var(--text); font-weight: 600; }
+
+/* ── Slide 5 – Summary ── */
+.s5 { text-align: center; }
+.s5 .eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); font-weight: 600; margin-bottom: 16px; }
+.s5 h2 {
+  font-size: clamp(24px, 3.5vw, 38px); font-weight: 800;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 12px;
+}
+.s5 .tagline { font-size: 15px; color: #777; margin-bottom: 34px; }
+.pill-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 34px; }
+.pill {
+  padding: 8px 18px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  background: rgba(0,212,255,.08); border: 1px solid rgba(0,212,255,.2); color: var(--cyan);
+}
+.cta {
+  display: inline-block; padding: 14px 36px; border-radius: 12px; font-size: 14px;
+  font-weight: 700; cursor: pointer; border: none;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  color: #04040c; letter-spacing: .3px;
+}
+
+/* ── Navigation ── */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 22px; padding: 0 4px;
+}
+.nav-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  padding: 9px 22px; border-radius: 10px; cursor: pointer; font-size: 13px;
+  font-family: inherit; font-weight: 500; transition: border-color .2s, color .2s;
+}
+.nav-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.nav-btn:disabled { opacity: .25; cursor: default; }
+
+.dots { display: flex; gap: 8px; }
+.dot-btn {
+  width: 8px; height: 8px; border-radius: 50%; border: none;
+  background: var(--border); cursor: pointer; transition: background .2s, transform .2s;
+}
+.dot-btn.active { background: var(--cyan); transform: scale(1.3); }
+
+.slide-counter { font-size: 12px; color: var(--muted); min-width: 52px; text-align: right; }
+
+/* ── Keyboard hint ── */
+.hint {
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; color: #2a2a44; letter-spacing: .5px;
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- Slide 1: Title -->
+  <div class="slide s1 active">
+    <div class="card">
+      <div class="tag">Internal Security Tool</div>
+      <h1>System Report<br>Generator</h1>
+      <p class="sub">
+        A one-click PowerShell tool that gives IT teams instant visibility into
+        every installed application version and system security posture — built
+        to catch vulnerabilities before attackers do.
+      </p>
+      <div class="badge-row">
+        <span class="badge">Windows 10 / 11</span>
+        <span class="badge">PowerShell 5+</span>
+        <span class="badge">No Install Required</span>
+        <span class="badge">100% Local</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: The Problem -->
+  <div class="slide s2">
+    <div class="card">
+      <div class="eyebrow">The Problem</div>
+      <h2>Outdated software is our<br><span>biggest attack surface</span></h2>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="num">60%</div>
+          <div class="lbl">of breaches exploit known vulnerabilities in unpatched software</div>
+        </div>
+        <div class="stat-box">
+          <div class="num">#1</div>
+          <div class="lbl">root cause of corporate data breaches is outdated application versions</div>
+        </div>
+        <div class="stat-box">
+          <div class="num">?</div>
+          <div class="lbl">Do we know every app version running on our corporate machines right now?</div>
+        </div>
+        <div class="stat-box">
+          <div class="num">0 min</div>
+          <div class="lbl">Time it takes to generate a full audit with this tool</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: The Solution -->
+  <div class="slide s3">
+    <div class="card">
+      <div class="eyebrow">The Solution</div>
+      <h2>Two reports. Complete visibility.</h2>
+      <div class="feat-grid">
+        <div class="feat-box">
+          <div class="icon">📦</div>
+          <h3>Software Report</h3>
+          <p>Lists every installed program with its version, publisher, install date, and size. Searchable and sortable HTML output.</p>
+        </div>
+        <div class="feat-box">
+          <div class="icon">🖥️</div>
+          <h3>System Report</h3>
+          <p>Full hardware snapshot — CPU, RAM, GPU, disk, BIOS — plus OS details and network configuration.</p>
+        </div>
+        <div class="feat-box">
+          <div class="icon">🔒</div>
+          <h3>Security Audit</h3>
+          <p>Checks AV status, Firewall, UAC, BitLocker, and the date of the last Windows Update patch.</p>
+        </div>
+        <div class="feat-box">
+          <div class="icon">🚀</div>
+          <h3>One-Click GUI</h3>
+          <p>Modern dark-theme WPF interface. Double-click RunApp.bat — no PowerShell knowledge needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Security Value -->
+  <div class="slide s4">
+    <div class="card">
+      <div class="eyebrow">Security Use Cases</div>
+      <h2>What we can catch with this tool</h2>
+      <div class="check-list">
+        <div class="check-item">
+          <div class="dot"></div>
+          <div class="txt"><strong>CVE Cross-Reference</strong> — Export versions and check against the National Vulnerability Database for known CVEs</div>
+        </div>
+        <div class="check-item">
+          <div class="dot"></div>
+          <div class="txt"><strong>Shadow IT Detection</strong> — Spot unlicensed or unapproved software installed by end users</div>
+        </div>
+        <div class="check-item">
+          <div class="dot"></div>
+          <div class="txt"><strong>Compliance Verification</strong> — Confirm AV, Firewall, BitLocker, and UAC are all active before audits</div>
+        </div>
+        <div class="check-item">
+          <div class="dot"></div>
+          <div class="txt"><strong>Incident Response</strong> — Review startup programs and recent installs during a security investigation</div>
+        </div>
+        <div class="check-item">
+          <div class="dot"></div>
+          <div class="txt"><strong>Patch Status Check</strong> — See the last Windows Update date on any machine instantly</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: Summary / CTA -->
+  <div class="slide s5">
+    <div class="card">
+      <div class="eyebrow">Summary</div>
+      <h2>Know every machine.<br>Patch every gap.</h2>
+      <p class="tagline">Built in-house · Runs locally · No cost · No dependencies</p>
+      <div class="pill-row">
+        <span class="pill">Instant HTML Reports</span>
+        <span class="pill">Version Audit</span>
+        <span class="pill">Security Control Check</span>
+        <span class="pill">Vulnerability Ready</span>
+      </div>
+      <button class="cta" onclick="window.open('README.md')">View Full Documentation</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+    <div class="dots" id="dotContainer"></div>
+    <span class="slide-counter" id="counter">1 / 5</span>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+  </div>
+</div>
+
+<div class="hint">← → arrow keys to navigate &nbsp;|&nbsp; Fullscreen: F11</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotContainer = document.getElementById('dotContainer');
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot-btn' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotContainer.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotContainer.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotContainer.children[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === slides.length - 1;
+  }
+
+  function changeSlide(dir) { goTo(Math.max(0, Math.min(slides.length - 1, current + dir))); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    changeSlide(-1);
+  });
+</script>
+</body>
+</html>
