@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(powershell -ExecutionPolicy Bypass -Command \"& { try { . .\\\\App.ps1 } catch { $_| Format-List * } }\")"
-    ]
-  }
-}
